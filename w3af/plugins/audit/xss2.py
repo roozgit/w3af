@@ -53,8 +53,8 @@ JS_EVENTS = ['onload', 'onerror', 'onunload', 'onsubmit', 'onclick', 'ondblclick
              'onblur', 'onscroll', 'onselect', 'onkeydown', 'onkeypress', 'onkeyup']
 
 #PRECISE_PAYLOAD entries are currently based on test cases. To populate this table comprehensively, much more testing with various browsers is needed
-PRECISE_PAYLOAD = {HtmlAttrNoQuote : ['PAYLOAD onload=JSCODE ','PAYLOAD onerror=JSCODE ', 'onunload=JSCODE ', 'PAYLOAD onclick=JSCODE ',
-                                      "PAYLOAD'onerror=JSCODE ", "PAYLOAD'onload=JSCODE ", "PAYLOAD'onunload=JSCODE ","PAYLOAD'onclick=JSCODE "],
+PRECISE_PAYLOAD = {HtmlAttrNoQuote : ["PAYLOAD'onerror=JSCODE ", "PAYLOAD'onload=JSCODE ", "PAYLOAD'onunload=JSCODE ","PAYLOAD'onclick=JSCODE ",
+                                      'PAYLOAD onload=JSCODE ','PAYLOAD onerror=JSCODE ', 'onunload=JSCODE ', 'PAYLOAD onclick=JSCODE '],
                    HtmlAttrBackticks:[''],
                    HtmlAttrDoubleQuote:['"><script>JSCODE</script>', '%34><script>JSCODE</script>', '"onclick=JSCODE attrib',"'onerror=JSCODE attrib","'onclick=JSCODE attrib"],
                    HtmlAttrSingleQuote:["'><script>JSCODE</script>", '%27><script>JSCODE</script>','"onclick=JSCODE attrib',"'onerror=JSCODE attrib","'onclick=JSCODE attrib"],
@@ -361,19 +361,18 @@ class xss2(AuditPlugin):
                     #executable context means a js event. So we can just inject our code directly
                     if context.is_executable():
                         precise_payloads=['JSCODE']
-                    elif ':' in sent_payload_lower:
+                    if ':' in sent_payload_lower:
                         precise_payloads=['javascript:JSCODE']
-                    elif isinstance(context, HtmlText):
+                    if isinstance(context, HtmlText):
                         precise_payloads = PRECISE_PAYLOAD[HtmlText]
-                    elif isinstance(context, HtmlAttrDoubleQuote):
+                    if isinstance(context, HtmlAttrDoubleQuote):
                         precise_payloads = PRECISE_PAYLOAD[HtmlAttrDoubleQuote]
-                    elif isinstance(context,ScriptText):
+                    if isinstance(context,ScriptText):
                         precise_payloads = PRECISE_PAYLOAD[ScriptText]
-                    elif isinstance(context,HtmlAttrSingleQuote):
+                    if isinstance(context,HtmlAttrSingleQuote):
                         precise_payloads = PRECISE_PAYLOAD[HtmlAttrSingleQuote]
-                    elif isinstance(context, HtmlAttrNoQuote):
+                    if isinstance(context, HtmlAttrNoQuote):
                         precise_payloads = PRECISE_PAYLOAD[HtmlAttrNoQuote]
-
                     #The list of checks for precise payloads can be improved. Currently it passes the test cases (thanks God!)
                     if precise_payloads:
                         fuzzable_params = [mutant.get_token_name()]

@@ -14,17 +14,17 @@ output console,text_file
 output
 output config text_file
 set output_file output-w3af.txt
-set verbose False
+set verbose True
 back
 output config console
-set verbose False
+set verbose True
 back
 
 audit xss2
 back
 
 target
-set target http://192.168.0.22:9000/testCase1?ui=foo
+set target http://192.168.0.22:9000/testCase5?ui=foo
 back
 start
 
