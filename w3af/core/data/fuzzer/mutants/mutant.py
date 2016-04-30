@@ -209,6 +209,7 @@ class Mutant(DiskItem):
         # can fuzz it!
         data_container = mutant_cls(freq).get_dc()
 
+
         for payload in payload_list:
             for dc_copy, token in data_container.iter_bound_tokens():
                 #

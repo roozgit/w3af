@@ -1,0 +1,33 @@
+# This is a simple xss detection demo:
+
+#http-settings
+#set proxy_address 127.0.0.1
+#set proxy_port 8080
+#back
+
+misc-settings
+set fuzzCookie False
+back
+
+plugins
+output console,text_file
+output
+output config text_file
+set output_file output-w3af.txt
+set verbose False
+back
+output config console
+set verbose False
+back
+
+audit xss2
+back
+
+target
+set target http://192.168.0.22:9000/testCase1?ui=foo
+back
+start
+
+
+
+exit
